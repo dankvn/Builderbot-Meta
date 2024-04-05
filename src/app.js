@@ -1,5 +1,5 @@
 
-import { createBot, createProvider, createFlow, addKeyword, } from '@builderbot/bot'
+import { createBot, createProvider, createFlow, addKeyword,EVENTS, } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
 import { MetaProvider as Provider } from '@builderbot/provider-meta'
 import { GPTFREE } from "gpt4free-plugin";
@@ -8,7 +8,7 @@ const gpt = new GPTFREE();
 
 const PORT = process.env.PORT ?? 3008
 
-const welcomeFlow = addKeyword(['hi', 'hello', 'hola'])
+const welcomeFlow =  addKeyword(EVENTS.WELCOME)
 
 .addAction(
     async (ctx, { flowDynamic }) => {
