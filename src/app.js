@@ -8,8 +8,6 @@ const gpt = new GPTFREE();
 
 const PORT = process.env.PORT ?? 3008
 
-
-
 const welcomeFlow = addKeyword(['hi', 'hello', 'hola'])
 
 .addAction(
@@ -24,7 +22,7 @@ const welcomeFlow = addKeyword(['hi', 'hello', 'hola'])
   
       const options = {
         model:"gpt-4",
-        prompt:""
+        prompt:"eres un entreador de gym y dar los mejores consejos fitnets"
       }
   
     const response = await gpt.chatCompletions(messages,options);
