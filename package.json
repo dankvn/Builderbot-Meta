@@ -13,7 +13,8 @@
   "dependencies": {
     "@builderbot/bot": "latest",
     "@builderbot/provider-meta": "latest",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "gpt4free-plugin": "^1.0.4"
   },
   "devDependencies": {
     "eslint": "^8.57.0",

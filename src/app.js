@@ -2,6 +2,9 @@ import { join } from 'path'
 import { createBot, createProvider, createFlow, addKeyword, utils } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
 import { MetaProvider as Provider } from '@builderbot/provider-meta'
+import { GPTFREE } from "gpt4free-plugin";
+
+const gpt = new GPTFREE();
 
 const PORT = process.env.PORT ?? 3008
 
@@ -20,21 +23,32 @@ const discordFlow = addKeyword('doc').addAnswer(
 )
 
 const welcomeFlow = addKeyword(['hi', 'hello', 'hola'])
-    .addAnswer(`🙌 Hello welcome to this *Chatbot*`)
-    .addAnswer(
-        [
-            'I share with you the following links of interest about the project',
-            '👉 *doc* to view the documentation',
-        ].join('\n'),
-        { delay: 800, capture: true },
-        async (ctx, { fallBack }) => {
-            if (!ctx.body.toLocaleLowerCase().includes('doc')) {
-                return fallBack('You should type *doc*')
-            }
-            return
-        },
-        [discordFlow]
-    )
+
+.addAction(
+    async (ctx, { flowDynamic }) => {
+      
+      const text = ctx.body;
+      
+      const messages =[
+        { role:"assistant", content:""},
+        { role: "user", content: text },
+      ]
+  
+      const options = {
+        model:"gpt-4",
+        prompt:""
+      }
+  
+    const response = await gpt.chatCompletions(messages,options);
+  
+     console.log(`${new Date()}\nPregunta: ${text} \nRespuesta: ${response}`);
+     await flowDynamic (response)
+  
+  
+  
+    },[discordFlow]
+  );
+   
 
 const registerFlow = addKeyword(utils.setEvent('REGISTER_FLOW'))
     .addAnswer(`What is your name?`, { capture: true }, async (ctx, { state }) => {
