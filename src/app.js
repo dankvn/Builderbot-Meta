@@ -22,7 +22,7 @@ const welcomeFlow =  addKeyword(EVENTS.WELCOME)
   
       const options = {
         model:"gpt-4",
-        prompt:"responde preguntas sobre dota 2 los mejores consejos eres un asistente para subir el mmr de dota 2"
+        prompt:"gpt-4"
       }
   
     const response = await gpt.chatCompletions(messages,options);
