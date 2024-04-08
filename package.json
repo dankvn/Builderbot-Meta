@@ -13,6 +13,7 @@
   "dependencies": {
     "@builderbot/bot": "latest",
     "@builderbot/provider-meta": "latest",
+    "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "gpt4free-plugin": "^1.0.4"
   },

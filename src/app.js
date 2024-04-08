@@ -3,42 +3,35 @@ import {
   createProvider,
   createFlow,
   addKeyword,
-  EVENTS,
+  
 } from "@builderbot/bot";
 import { MemoryDB as Database } from "@builderbot/bot";
 import { MetaProvider as Provider } from "@builderbot/provider-meta";
-import { GPTFREE } from "gpt4free-plugin";
-import axios from "axios";
+import axios from "axios"
 
 
-const gpt = new GPTFREE();
+
 
 const PORT = process.env.PORT ?? 3008;
 
 
 const guardar = async () =>{
-    let headersList = {
-        "Accept": "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        "Authorization": "Bearer c19748727ee48e87c45352f220e36c41b172eba2e136d2b3ea8b96aec3f1d4af27cc45505dbcf2aa68e72f10f235fb5a9430445bdde23421c04145f16cf796ef49ce144780060b8f2b8dba8a240d683cefd172e24286c8eb8c5283877c3ed4ed44f818c87ff0188a876add112c344a385be2c13f0467e38a303c09f119fd992b",
-        "Content-Type": "application/json" 
-       }
-       
-       let bodyContent = JSON.stringify({
-         "data": {
-           "name": "Tayron",
-           "descripcion": "corte de cabello"
-         }
-       });
-       
-       let reqOptions = {
-         url: "http://localhost:1337/api/orders",
-         method: "POST",
-         headers: headersList,
-         data: bodyContent,
-       }
-       let response = await axios.request(reqOptions);
-        console.log(response.data);
+    try {
+        var config = {
+          method: "post",
+          url: `http://localhost:1337/api/orders`,
+          headers: {
+            Authorization: `Bearer ${process.env.STRAPI_KEY}`,
+          },
+        };
+    
+        const response = await axios(config);
+        return response.data;
+      } catch (e) {
+        console.log(e);
+        return null;
+      }
+    
 }
 
 let GLOBAL_STATE = {};
@@ -61,7 +54,7 @@ const welcomeFlow = addKeyword("hola")
   });
 
 const main = async () => {
-  const adapterFlow = createFlow([welcomeFlow,guardar]);
+  const adapterFlow = createFlow([welcomeFlow]);
   const adapterProvider = createProvider(Provider, {
     jwtToken: process.env.JWT_TOKEN,
     numberId: process.env.NUMBER_ID,
