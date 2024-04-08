@@ -1,114 +1,98 @@
-import {
-  createBot,
-  createProvider,
-  createFlow,
-  addKeyword,
+
+import { createBot, createProvider, createFlow, addKeyword,EVENTS, } from '@builderbot/bot'
+import { MemoryDB as Database } from '@builderbot/bot'
+import { MetaProvider as Provider } from '@builderbot/provider-meta'
+import { GPTFREE } from "gpt4free-plugin";
+
+const gpt = new GPTFREE();
+
+const PORT = process.env.PORT ?? 3008
+
+const welcomeFlow =  addKeyword(EVENTS.WELCOME)
+
+.addAction(
+    async (ctx, { flowDynamic }) => {
+      
+      const text = ctx.body;
+      
+      const messages =[
+        { role:"assistant", content:""},
+        { role: "user", content: text },
+      ]
   
-} from "@builderbot/bot";
-import { MemoryDB as Database } from "@builderbot/bot";
-import { MetaProvider as Provider } from "@builderbot/provider-meta";
-import axios from "axios"
-
-
-
-
-const PORT = process.env.PORT ?? 3008;
-
-
-const guardar = async () =>{
-    try {
-        var config = {
-          method: "post",
-          url: `http://localhost:1337/api/orders`,
-          headers: {
-            Authorization: `Bearer ${process.env.STRAPI_KEY}`,
-          },
-        };
-    
-        const response = await axios(config);
-        return response.data;
-      } catch (e) {
-        console.log(e);
-        return null;
+      const options = {
+        model:"gpt-4",
+        prompt:"responde preguntas sobre dota 2 los mejores consejos eres un asistente para subir el mmr de dota 2"
       }
-    
-}
+  
+    const response = await gpt.chatCompletions(messages,options);
+  
+     console.log(`${new Date()}\nPregunta: ${text} \nRespuesta: ${response}`);
+     await flowDynamic (response)
+  
+  
+  
+    },
+  );
+   
 
-let GLOBAL_STATE = {};
-
-const welcomeFlow = addKeyword("hola")
-  .addAnswer("Bienvenido")
-  .addAnswer("A continuacion comenzamos con tu pedido. ")
-  .addAnswer("¿Cual es tu nombre?", { capture: true }, async (ctx) => {
-    GLOBAL_STATE[ctx.from] = {
-      name: ctx.body,
-      descripcion: "",
-      direccion: "",
-    };
-  })
-  .addAnswer("¿Direccion de envio?", { capture: true }, async (ctx) => {
-    GLOBAL_STATE[ctx.from].direccion = ctx.body;
-  })
-  .addAnswer("Tu orden se esta procesando...", null, async (ctx) => {
-    guardar(GLOBAL_STATE[ctx.from]);
-  });
 
 const main = async () => {
-  const adapterFlow = createFlow([welcomeFlow]);
-  const adapterProvider = createProvider(Provider, {
-    jwtToken: process.env.JWT_TOKEN,
-    numberId: process.env.NUMBER_ID,
-    verifyToken: process.env.VERIFY_TOKEN,
-    version: "v18.0",
-  });
-  const adapterDB = new Database();
-
-  const { handleCtx, httpServer } = await createBot({
-    flow: adapterFlow,
-    provider: adapterProvider,
-    database: adapterDB,
-  });
-
-  adapterProvider.server.post(
-    "/v1/messages",
-    handleCtx(async (bot, req, res) => {
-      const { number, message, urlMedia } = req.body;
-      await bot.sendMessage(number, message, { media: urlMedia ?? null });
-      return res.end("sended");
+    const adapterFlow = createFlow([welcomeFlow])
+    const adapterProvider = createProvider(Provider, {
+        jwtToken: process.env.JWT_TOKEN,
+        numberId: process.env.NUMBER_ID,
+        verifyToken: process.env.VERIFY_TOKEN,
+        version: 'v18.0'
     })
-  );
+    const adapterDB = new Database()
 
-  adapterProvider.server.post(
-    "/v1/register",
-    handleCtx(async (bot, req, res) => {
-      const { number, name } = req.body;
-      await bot.dispatch("REGISTER_FLOW", { from: number, name });
-      return res.end("trigger");
+    const { handleCtx, httpServer } = await createBot({
+        flow: adapterFlow,
+        provider: adapterProvider,
+        database: adapterDB,
     })
-  );
 
-  adapterProvider.server.post(
-    "/v1/samples",
-    handleCtx(async (bot, req, res) => {
-      const { number, name } = req.body;
-      await bot.dispatch("SAMPLES", { from: number, name });
-      return res.end("trigger");
-    })
-  );
+    adapterProvider.server.post(
+        '/v1/messages',
+        handleCtx(async (bot, req, res) => {
+            const { number, message, urlMedia } = req.body
+            await bot.sendMessage(number, message, { media: urlMedia ?? null })
+            return res.end('sended')
+        })
+    )
 
-  adapterProvider.server.post(
-    "/v1/blacklist",
-    handleCtx(async (bot, req, res) => {
-      const { number, intent } = req.body;
-      if (intent === "remove") bot.blacklist.remove(number);
-      if (intent === "add") bot.blacklist.add(number);
+    adapterProvider.server.post(
+        '/v1/register',
+        handleCtx(async (bot, req, res) => {
+            const { number, name } = req.body
+            await bot.dispatch('REGISTER_FLOW', { from: number, name })
+            return res.end('trigger')
+        })
+    )
 
-      res.writeHead(200, { "Content-Type": "application/json" });
-      return res.end(JSON.stringify({ status: "ok", number, intent }));
-    })
-  );
+    adapterProvider.server.post(
+        '/v1/samples',
+        handleCtx(async (bot, req, res) => {
+            const { number, name } = req.body
+            await bot.dispatch('SAMPLES', { from: number, name })
+            return res.end('trigger')
+        })
+    )
 
-  httpServer(+PORT);
-};
+    adapterProvider.server.post(
+        '/v1/blacklist',
+        handleCtx(async (bot, req, res) => {
+            const { number, intent } = req.body
+            if (intent === 'remove') bot.blacklist.remove(number)
+            if (intent === 'add') bot.blacklist.add(number)
 
-main();
+            res.writeHead(200, { 'Content-Type': 'application/json' })
+            return res.end(JSON.stringify({ status: 'ok', number, intent }))
+        })
+    )
+
+    httpServer(+PORT)
+}
+
+main()
