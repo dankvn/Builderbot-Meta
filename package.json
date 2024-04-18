@@ -11,11 +11,15 @@
   },
   "keywords": [],
   "dependencies": {
+    "@builderbot-plugins/telegram": "^2.0.0",
     "@builderbot/bot": "latest",
     "@builderbot/provider-meta": "latest",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
-    "gpt4free-plugin": "^1.0.4"
+    "google-auth-library": "^9.8.0",
+    "google-spreadsheet": "^4.1.1",
+    "gpt4free-plugin": "^1.0.4",
+    "sharp": "^0.33.3"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
