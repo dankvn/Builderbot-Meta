@@ -18,11 +18,11 @@ const welcomeFlow = addKeyword(EVENTS.WELCOME)
       const ifExist = await googlesheet.validatePhoneNumber(telefono);
       console.log(ifExist);
 
-      if (ifExist === null) {
+      if (ifExist === true) {
       await state.update({registration: true})
         return gotoFlow(flowRegistered);
       }
-      if (ifExist === true){
+      if (ifExist === null){
         return gotoFlow(flowUserNotRegistered)
       }
 
