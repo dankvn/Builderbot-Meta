@@ -8,22 +8,24 @@ const googlesheet = new GoogleSheetService(
 );
 
 const welcomeFlow = addKeyword(EVENTS.WELCOME)
-.addAnswer('Welcome!', null, async (ctx, { gotoFlow }) => {
-  // db.get(...)
-  
-  const userId = ctx.chat_id
+.addAnswer('Welcome!', null, async (ctx, { state, gotoFlow }) => {
+ 
+  const telefono = ctx.from;
       console.log(
         "consultando en base de datos si existe el numero registrado...."
       );
 
-      const ifExist = await googlesheet.validatePhoneNumber(userId);
+      const ifExist = await googlesheet.validatePhoneNumber(telefono);
       console.log(ifExist);
 
-      if (ifExist) {
-        return gotoFlow(flowRegistered); // Si está registrado, ir al flujo de registrados
-      } else {
-        return gotoFlow(flowUserNotRegistered); // Si no está registrado, ir al flujo de no registrados
+      if (ifExist === null) {
+      await state.update({registration: true})
+        return gotoFlow(flowRegistered);
       }
+      if (ifExist === true){
+        return gotoFlow(flowUserNotRegistered)
+      }
+
 });
 
 

@@ -1,25 +1,27 @@
 import "dotenv/config";
 import { createBot, createProvider, createFlow } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
-//import { TelegramProvider } from '@builderbot-plugins/telegram'
 import { MetaProvider as Provider } from '@builderbot/provider-meta'
 
 
 //flows
 import welcomeFlow from "./flows/welcomeFlow.js";
+import flowRegistered from "./flows/flowRegistered.js";
+import flowUserNotRegistered from "./flows/flowUserNotRegistered.js";
+
 
 
 const PORT = process.env.PORT ?? 3008;
 
 const main = async () => {
-    const adapterFlow = createFlow([welcomeFlow])
+    const adapterFlow = createFlow([welcomeFlow,flowRegistered,flowUserNotRegistered])
     const adapterProvider = createProvider(Provider, {
         jwtToken: process.env.JWT_TOKEN,
         numberId: process.env.NUMBER_ID,
         verifyToken: process.env.VERIFY_TOKEN,
         version: 'v18.0'
     })
-     
+
  
 
   const adapterDB = new Database()
