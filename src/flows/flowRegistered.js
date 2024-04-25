@@ -13,10 +13,13 @@ const flowRegistered = addKeyword(EVENTS.ACTION)
 .addAction(async (ctx, { state,flowDynamic, gotoFlow}) => {
   const telefono = ctx.from;
   const ifExist = await googlesheet.validatePhoneNumber(telefono);
-  console.log("Valor de ifExist:", ifExist);
 
   const mensaje = `👋Hola ${ifExist?.Nombre}, soy tu asistente virtual `;
   await flowDynamic(mensaje);
+
+
+
+
   if (ifExist === null) {
     await state.update({registration: true})
       return gotoFlow(flowmenu);
