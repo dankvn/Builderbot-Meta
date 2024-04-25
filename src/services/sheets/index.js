@@ -39,7 +39,7 @@ class GoogleSheetService {
       telefono = telefono.replace(/\s/g, '').replace(/[-()]/g, '');
       await this.doc.loadInfo();
       const sheet = this.doc.sheetsByIndex[1]; // La hoja que contiene los datos del catálogo
-      await sheet.loadCells("A:B"); // Carga solo las celdas de la columna con los números de teléfono
+      await sheet.loadCells(); // Carga solo las celdas de la columna con los números de teléfono
       const lastRow = sheet.rowCount;
 
       for (let i = 0; i < lastRow; i++) {
