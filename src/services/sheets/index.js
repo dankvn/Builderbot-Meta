@@ -32,33 +32,30 @@ class GoogleSheetService {
    * @returns
    */
   // Agrega un método para mostrar resultados del catálogo basado en el código de destino
-
   async validatePhoneNumber(telefono) {
     try {
-      // Eliminar espacios en blanco y caracteres especiales del número de teléfono
-      telefono = telefono.replace(/\s/g, '').replace(/[-()]/g, '');
       await this.doc.loadInfo();
       const sheet = this.doc.sheetsByIndex[1]; // La hoja que contiene los datos del catálogo
-      await sheet.loadCells(); // Carga solo las celdas de la columna con los números de teléfono
-      const lastRow = sheet.rowCount;
+      await sheet.loadCells("A1:H10");
+      const rows = await sheet.getRows();
 
-      for (let i = 0; i < lastRow; i++) {
-        const nameCell = sheet.getCell(i, 0); // Celda en la columna A (nombres)
-        const phoneCell = sheet.getCell(i, 1); // Celda en la columna B (números de teléfono)
-        console.log(`Valor de la celda en la fila ${i + 1}: ${phoneCell.value}`);
-        if (phoneCell.value === telefono) { // Compara el valor de la celda con el número de teléfono buscado
-            return { 
-                nombre: nameCell.value, 
-                telefono: telefono 
-            }; // Si se encuentra el número de teléfono, retorna el nombre y el número de teléfono
-        }
+      const rowDataArray = rows
+        .filter((row) => row.get("Número_de_teléfono") === telefono) 
+        .map((row) => ({
+          Nombre: row.get("Nombre"),
+          Número_de_teléfono: row.get("Número_de_teléfono"),
+          Correo: row.get("Correo"),
+          Fecha_de_registro: row.get("Fecha_de_registro"),
+          
+        }));
+
+      const rowData = rowDataArray.length > 0 ? rowDataArray[0] : null;
+
+      return rowData;
+    } catch (err) {
+      console.log(err);
+      return undefined; // Cambiamos 'null' a null
     }
-
-    return null; // Si el número de teléfono no se encuentra en ninguna celda, retorna null
-} catch (err) {
-    console.log(err);
-    return null; // En caso de error, retorna null
-}
   }
 
 
