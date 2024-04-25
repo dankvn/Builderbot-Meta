@@ -34,9 +34,10 @@ class GoogleSheetService {
   // Agrega un método para mostrar resultados del catálogo basado en el código de destino
   async validatePhoneNumber(telefono) {
     try {
+      telefono = telefono.replace(/\s/g, '').replace(/[-()]/g, '');
       await this.doc.loadInfo();
       const sheet = this.doc.sheetsByIndex[1]; // La hoja que contiene los datos del catálogo
-      await sheet.loadCells("A:A"); // Carga solo las celdas de la columna con los números de teléfono
+      await sheet.loadCells("B:B"); // Carga solo las celdas de la columna con los números de teléfono
       const lastRow = sheet.rowCount;
 
       for (let i = 0; i < lastRow; i++) {
