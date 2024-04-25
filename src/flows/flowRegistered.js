@@ -20,11 +20,11 @@ const flowRegistered = addKeyword(EVENTS.ACTION)
 
 
 
-  if (ifExist === null) {
+  if (ifExist === true) {
     await state.update({registration: true})
       return gotoFlow(flowmenu);
     }
-    if (ifExist === true){
+    if (ifExist === null){
       return gotoFlow(flowUserNotRegistered)
     }
 
