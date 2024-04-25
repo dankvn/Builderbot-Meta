@@ -36,26 +36,23 @@ class GoogleSheetService {
     try {
       await this.doc.loadInfo();
       const sheet = this.doc.sheetsByIndex[1]; // La hoja que contiene los datos del catálogo
-      await sheet.loadCells("A1:H10");
-      const rows = await sheet.getRows();
+      await sheet.loadCells("A1:A100"); // Carga solo las celdas de la columna con los números de teléfono
+      const lastRow = sheet.rowCount;
 
-      const rowDataArray = rows
-        .filter((row) => row.get("Número_de_teléfono") === telefono) 
-        .map((row) => ({
-          Nombre: row.get("Nombre"),
-          Número_de_teléfono: row.get("Número_de_teléfono"),
-          Correo: row.get("Correo"),
-          Fecha_de_registro: row.get("Fecha_de_registro"),
-          
-        }));
+      for (let i = 1; i <= lastRow; i++) {
+          const cell = sheet.getCell(i, 0); // Accede a la celda en la columna de números de teléfono
+          if (cell.value === telefono) { // Compara el valor de la celda con el número de teléfono buscado
+              // Si se encuentra el número de teléfono, retorna verdadero
+              return true;
+          }
+      }
 
-      const rowData = rowDataArray.length > 0 ? rowDataArray[0] : null;
-
-      return rowData;
-    } catch (err) {
+      // Si el número de teléfono no se encuentra en ninguna celda, retorna falso
+      return false;
+  } catch (err) {
       console.log(err);
-      return undefined; // Cambiamos 'null' a null
-    }
+      return false; // En caso de error, retorna falso
+  }
   }
 
  /**
