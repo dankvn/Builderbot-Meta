@@ -16,14 +16,14 @@ const welcomeFlow = addKeyword(EVENTS.WELCOME)
         "consultando en base de datos si existe el numero registrado...."
       );
 
-      const ifExist = await googlesheet.validatePhoneNumber(telefono);
-      console.log("Resultado de la consulta en la hoja de cálculo:", ifExist);
+      const userData = await googlesheet.validatePhoneNumber(telefono);
+      console.log("Resultado de la consulta en la hoja de cálculo:", userData);
 
-      if (ifExist === true) {
-      await state.update({registration: true})
+      if (userData!== null) {
+      await state.update({registration: true, userData})
         return gotoFlow(flowRegistered);
       }
-      if (ifExist === null){
+      if (userData === null){
         return gotoFlow(flowUserNotRegistered)
       }
 
