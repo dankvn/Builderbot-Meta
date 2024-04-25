@@ -35,26 +35,29 @@ class GoogleSheetService {
 
   async validatePhoneNumber(telefono) {
     try {
-     
+      // Eliminar espacios en blanco y caracteres especiales del número de teléfono
+      telefono = telefono.replace(/\s/g, '').replace(/[-()]/g, '');
       await this.doc.loadInfo();
       const sheet = this.doc.sheetsByIndex[1]; // La hoja que contiene los datos del catálogo
-      await sheet.loadCells("B:B"); // Carga solo las celdas de la columna con los números de teléfono
+      await sheet.loadCells("A:B"); // Carga solo las celdas de la columna con los números de teléfono
       const lastRow = sheet.rowCount;
 
       for (let i = 0; i < lastRow; i++) {
-          const cell = sheet.getCell(i, 0); // Accede a la celda en la columna de números de teléfono
-          if (cell.value === telefono) { // Compara el valor de la celda con el número de teléfono buscado
-              // Si se encuentra el número de teléfono, retorna verdadero
-              return true;
-          }
-      }
+        const nameCell = sheet.getCell(i, 0); // Celda en la columna A (nombres)
+        const phoneCell = sheet.getCell(i, 1); // Celda en la columna B (números de teléfono)
+        if (phoneCell.value === telefono) { // Compara el valor de la celda con el número de teléfono buscado
+            return { 
+                nombre: nameCell.value, 
+                telefono: telefono 
+            }; // Si se encuentra el número de teléfono, retorna el nombre y el número de teléfono
+        }
+    }
 
-      // Si el número de teléfono no se encuentra en ninguna celda, retorna falso
-      return false;
-  } catch (err) {
-      console.log(err);
-      return false; // En caso de error, retorna falso
-  }
+    return null; // Si el número de teléfono no se encuentra en ninguna celda, retorna null
+} catch (err) {
+    console.log(err);
+    return null; // En caso de error, retorna null
+}
   }
 
  /**
