@@ -17,9 +17,6 @@ const flowRegistered = addKeyword(EVENTS.ACTION)
   const mensaje = `👋Hola ${ifExist?.Nombre}, soy tu asistente virtual `;
   await flowDynamic(mensaje);
 
-
-
-
   if (ifExist === true) {
     await state.update({registration: true})
       return gotoFlow(flowmenu);

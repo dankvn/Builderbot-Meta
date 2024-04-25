@@ -11,12 +11,13 @@ const welcomeFlow = addKeyword(EVENTS.WELCOME)
 .addAnswer('Welcome!', null, async (ctx, { state, gotoFlow }) => {
  
   const telefono = ctx.from;
+  console.log("Número de teléfono:", telefono);
       console.log(
         "consultando en base de datos si existe el numero registrado...."
       );
 
       const ifExist = await googlesheet.validatePhoneNumber(telefono);
-      console.log(ifExist);
+      console.log("Resultado de la consulta en la hoja de cálculo:", ifExist);
 
       if (ifExist === true) {
       await state.update({registration: true})
