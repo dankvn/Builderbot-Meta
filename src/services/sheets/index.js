@@ -39,7 +39,7 @@ class GoogleSheetService {
       await sheet.loadCells("A:A"); // Carga solo las celdas de la columna con los números de teléfono
       const lastRow = sheet.rowCount;
 
-      for (let i = 0; i <= lastRow; i++) {
+      for (let i = 0; i < lastRow; i++) {
           const cell = sheet.getCell(i, 0); // Accede a la celda en la columna de números de teléfono
           if (cell.value === telefono) { // Compara el valor de la celda con el número de teléfono buscado
               // Si se encuentra el número de teléfono, retorna verdadero
