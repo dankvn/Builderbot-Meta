@@ -12,19 +12,17 @@ const googlesheet = new GoogleSheetService(
 const flowRegistered = addKeyword(EVENTS.ACTION)
 .addAction(async (ctx, { state,flowDynamic, gotoFlow}) => {
   const telefono = ctx.from;
-  const ifExist = await googlesheet.validatePhoneNumber(telefono);
+  const userData  = await googlesheet.validatePhoneNumber(telefono);
 
-  const mensaje = `👋Hola ${ifExist?.Nombre}, soy tu asistente virtual `;
+  const mensaje = `👋Hola ${userData ?.Nombre}, soy tu asistente virtual `;
   await flowDynamic(mensaje);
-
-  if (ifExist === true) {
-    await state.update({registration: true})
-      return gotoFlow(flowmenu);
+  
+    if (userData !== null) { // Si se encontraron datos
+      await state.update({ registration: true, userData }); // Actualizar el estado con los datos del usuario
+      return gotoFlow(flowmenu); // Redireccionar al flujo flowRegistered
+    } else {
+      return gotoFlow(flowUserNotRegistered); // Redireccionar al flujo flowUserNotRegistered
     }
-    if (ifExist === null){
-      return gotoFlow(flowUserNotRegistered)
-    }
-
   
 });
 export default flowRegistered 
