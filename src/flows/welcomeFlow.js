@@ -19,12 +19,11 @@ const welcomeFlow = addKeyword(EVENTS.WELCOME)
       const userData = await googlesheet.validatePhoneNumber(telefono);
       console.log("Resultado de la consulta en la hoja de cálculo:", userData);
 
-      if (userData!== null) {
-      await state.update({registration: true, userData})
-        return gotoFlow(flowRegistered);
-      }
-      if (userData === null){
-        return gotoFlow(flowUserNotRegistered)
+      if (userData !== null) { // Si se encontraron datos
+        await state.update({ registration: true, userData }); // Actualizar el estado con los datos del usuario
+        return gotoFlow(flowRegistered); // Redireccionar al flujo flowRegistered
+      } else {
+        return gotoFlow(flowUserNotRegistered); // Redireccionar al flujo flowUserNotRegistered
       }
 
 });
