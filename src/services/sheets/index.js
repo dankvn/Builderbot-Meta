@@ -1,18 +1,15 @@
-import { JWT } from "google-auth-library";
-import { GoogleSpreadsheet } from "google-spreadsheet";
+const { JWT } = require("google-auth-library");
+const { GoogleSpreadsheet } = require("google-spreadsheet");
 
 const SCOPES = [
   "https://www.googleapis.com/auth/spreadsheets",
   "https://www.googleapis.com/auth/drive.file",
   "https://www.googleapis.com/auth/drive",
-"https://www.googleapis.com/auth/drive.readonly",
+  "https://www.googleapis.com/auth/drive.readonly",
 ];
 
 class GoogleSheetService {
-  jwtFromEnv = undefined;
-  doc = undefined;
-
-  constructor(id = undefined) {
+  constructor(id) {
     if (!id) {
       throw new Error("ID_UNDEFINED");
     }
@@ -25,64 +22,35 @@ class GoogleSheetService {
 
     this.doc = new GoogleSpreadsheet(id, this.jwtFromEnv);
   }
-   
-  
-    /**
-   * @param {*} telefono
-   * @returns
+
+  /**
+   * @param {string} telefono
+   * @returns {Promise<{Nombre: string, Número_de_teléfono: string, Correo: string, Fecha_de_registro: string} | null>}
    */
-  // Agrega un método para mostrar resultados del catálogo basado en el código de destino
   async validatePhoneNumber(telefono) {
     try {
-     
       await this.doc.loadInfo();
       const sheet = this.doc.sheetsByIndex[1]; // La hoja que contiene los datos del catálogo
-      await sheet.loadCells("B:B"); // Carga solo las celdas de la columna con los números de teléfono
-      const lastRow = sheet.rowCount;
+      await sheet.loadCells("A1:H10");
+      const rows = await sheet.getRows();
 
-      for (let i = 0; i < lastRow; i++) {
-          const cell = sheet.getCell(i, 0); // Accede a la celda en la columna de números de teléfono
-          if (cell.value === telefono) { // Compara el valor de la celda con el número de teléfono buscado
-              // Si se encuentra el número de teléfono, retorna verdadero
-              return true;
-          }
-      }
+      const rowDataArray = rows
+        .filter((row) => row.get("Número_de_teléfono") === telefono) 
+        .map((row) => ({
+          Nombre: row.get("Nombre"),
+          Número_de_teléfono: row.get("Número_de_teléfono"),
+          Correo: row.get("Correo"),
+          Fecha_de_registro: row.get("Fecha_de_registro"),
+        }));
 
-      // Si el número de teléfono no se encuentra en ninguna celda, retorna falso
-      return false;
-  } catch (err) {
+      const rowData = rowDataArray.length > 0 ? rowDataArray[0] : null;
+
+      return rowData;
+    } catch (err) {
       console.log(err);
-      return false; // En caso de error, retorna falso
-  }
-  }
-
- /**
-   * Recuperar el menu del dia
-   * @param {*} dayNumber
-   * @returns
-   */
-retrieveColumnData = async (columnIndex = 0) => {
-  try {
-    const list = [];
-    await this.doc.loadInfo();
-    const sheet = this.doc.sheetsByIndex[0]; // the first sheet
-    await sheet.loadCells("A1:H10");
-    const rows = await sheet.getRows();
-    for (const a of Array.from(Array(rows.length).keys())) {
-      // Obtiene la celda en la fila actual y la columna especificada
-      const cellA1 = sheet.getCell(a + 1, columnIndex);
-      list.push(cellA1.value);
+      return null;
     }
-
-    return list;
-  } catch (err) {
-    console.log(err);
-    return undefined;
   }
-};
-
-
-
 }
 
-export default GoogleSheetService;
+module.exports = GoogleSheetService;
