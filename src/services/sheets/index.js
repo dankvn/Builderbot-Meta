@@ -62,7 +62,7 @@ class GoogleSheetService {
   async guardarDatosUsuario(nombre, edad) {
     try {
       await this.doc.loadInfo();
-      const sheet = this.doc.sheetsByIndex[0]; // Ajusta el índice de la hoja según tu configuración
+      const sheet = this.doc.sheetsByIndex[1]; // Ajusta el índice de la hoja según tu configuración
       await sheet.addRow({ Nombre: nombre, Edad: edad }); // Ajusta los nombres de las columnas según tu hoja
       console.log('Datos del usuario guardados correctamente en Google Sheets');
     } catch (error) {
