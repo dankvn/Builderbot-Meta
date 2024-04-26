@@ -8,7 +8,7 @@ const googlesheet = new GoogleSheetService(
 );
 
 const welcomeFlow = addKeyword(EVENTS.WELCOME)
-.addAnswer('Welcome! al bot', null, async (ctx, { state, gotoFlow }) => {
+.addAnswer('Bienvenidos 🤖', null, async (ctx, { state, gotoFlow }) => {
  
   const telefono = ctx.from;
   console.log("Número de teléfono:", telefono);

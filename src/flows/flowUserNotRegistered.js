@@ -15,7 +15,7 @@ const googlesheet = new GoogleSheetService(
 .addAnswer('¿Cuál es tu email?', { capture: true }, async (ctx, { state ,fallBack,  }) => {
     await state.update({ age: ctx.body });  
     if (!ctx.body.includes('@')) {
-      return fallBack(`Ups! is not a valid email`);
+      return fallBack(`Ups! email no valido ❌...Ingresa un email que contenga @`);
      
     } else {
       // 
@@ -29,7 +29,7 @@ const googlesheet = new GoogleSheetService(
     // Guardar los datos en Google Sheets
     await googlesheet.guardarDatosUsuario(nombre,email,telefono);
 
-   await flowDynamic(`Nombre: ${nombre}\nEdad: ${email}`);
+   await flowDynamic(`Nombre: ${nombre}\nEmail: ${email}`);
 
 });
   
