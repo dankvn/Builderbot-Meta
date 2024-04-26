@@ -66,7 +66,7 @@ class GoogleSheetService {
       const fechaActual = new Date().toLocaleDateString(); // Obtener la fecha actual
 
       
-      await sheet.addRow({ Nombre: nombre, Número_de_teléfono: telefono, Email:email, Fecha_de_registro: fechaActual }); // Ajusta los nombres de las columnas según tu hoja
+      await sheet.addRow({ Nombre: nombre, Número_de_teléfono: telefono, Email: email, Fecha_de_registro: fechaActual }); // Ajusta los nombres de las columnas según tu hoja
       
       console.log('Datos del usuario guardados correctamente en Google Sheets');
     } catch (error) {

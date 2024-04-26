@@ -13,7 +13,7 @@ const googlesheet = new GoogleSheetService(
     await state.update({ name: ctx.body }); 
 })
 .addAnswer('¿Cuál es tu email?', { capture: true }, async (ctx, { state ,fallBack,  }) => {
-    await state.update({ age: ctx.body });  
+    await state.update({ email: ctx.body });  
     if (!ctx.body.includes('@')) {
       return fallBack(`Ups! email no valido ❌...Ingresa un email que contenga @`);
      
