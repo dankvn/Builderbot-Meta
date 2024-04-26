@@ -18,9 +18,9 @@ const googlesheet = new GoogleSheetService(
 .addAnswer('Tus datos son:', null, async (_, { flowDynamic, state }) => {
     const nombre = state.get('name');
     const edad = state.get('age');
-
+    const telefono = state.get('telefono');
     // Guardar los datos en Google Sheets
-    await googlesheet.guardarDatosUsuario(nombre,edad);
+    await googlesheet.guardarDatosUsuario(nombre,edad,telefono);
 
    await flowDynamic(`Nombre: ${nombre}\nEdad: ${edad}`);
 
