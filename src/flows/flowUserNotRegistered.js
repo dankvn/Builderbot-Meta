@@ -20,7 +20,7 @@ const googlesheet = new GoogleSheetService(
     const edad = state.get('age');
 
     // Guardar los datos en Google Sheets
-    await googlesheet.guardarDatosUsuario(nombre, edad);
+    await googlesheet.guardarDatosUsuario(nombre,edad);
 
    await flowDynamic(`Nombre: ${nombre}\nEdad: ${edad}`);
 
