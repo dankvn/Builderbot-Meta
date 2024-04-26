@@ -15,10 +15,10 @@ const googlesheet = new GoogleSheetService(
 .addAnswer('¿Cuál es tu edad?', { capture: true }, async (ctx, { state }) => {
     await state.update({ age: ctx.body });  
 })
-.addAnswer('Tus datos son:', null, async (_, { flowDynamic, state }) => {
+.addAnswer('Tus datos son:', null, async (ctx, { flowDynamic, state }) => {
     const nombre = state.get('name');
     const edad = state.get('age');
-    const telefono = state.get('telefono');
+    const telefono = ctx.from;
     // Guardar los datos en Google Sheets
     await googlesheet.guardarDatosUsuario(nombre,edad,telefono);
 
