@@ -12,17 +12,24 @@ const googlesheet = new GoogleSheetService(
   .addAnswer('¿Cuál es tu nombre?', { capture: true }, async (ctx, { state }) => {
     await state.update({ name: ctx.body }); 
 })
-.addAnswer('¿Cuál es tu edad?', { capture: true }, async (ctx, { state }) => {
+.addAnswer('¿Cuál es tu email?', { capture: true }, async (ctx, { state ,fallBack,  }) => {
     await state.update({ age: ctx.body });  
-})
+    if (!ctx.body.includes('@')) {
+      return fallBack(`Ups! is not a valid email`);
+     
+    } else {
+      // 
+    }
+  })
+
 .addAnswer('Tus datos son:', null, async (ctx, { flowDynamic, state }) => {
     const nombre = state.get('name');
-    const edad = state.get('age');
+    const email = state.get('email');
     const telefono = ctx.from;
     // Guardar los datos en Google Sheets
-    await googlesheet.guardarDatosUsuario(nombre,edad,telefono);
+    await googlesheet.guardarDatosUsuario(nombre,email,telefono);
 
-   await flowDynamic(`Nombre: ${nombre}\nEdad: ${edad}`);
+   await flowDynamic(`Nombre: ${nombre}\nEdad: ${email}`);
 
 });
   
