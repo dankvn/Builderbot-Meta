@@ -1,6 +1,7 @@
 import { addKeyword, EVENTS } from '@builderbot/bot';
 
 
+
   const flowUserNotRegistered= addKeyword(EVENTS.ACTION)
   .addAnswer('Para acceder al bot tienes que registarte 📝')
 
@@ -13,7 +14,7 @@ import { addKeyword, EVENTS } from '@builderbot/bot';
 .addAnswer('Tus datos son:', null, async (_, { flowDynamic, state }) => {
     const nombre = state.get('name');
     const edad = state.get('age');
-   await flowDynamic(`Nombre: ${nombre} Edad: ${edad}`);
+   await flowDynamic(`Nombre: ${nombre}\nEdad: ${edad}`);
 });
   
 

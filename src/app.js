@@ -4,6 +4,9 @@ import { MemoryDB as Database } from '@builderbot/bot'
 import { MetaProvider as Provider } from '@builderbot/provider-meta'
 
 
+
+
+
 //flows
 import welcomeFlow from "./flows/welcomeFlow.js";
 import flowRegistered from "./flows/flowRegistered.js";

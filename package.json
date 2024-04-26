@@ -11,6 +11,7 @@
   },
   "keywords": [],
   "dependencies": {
+    "@builderbot-plugins/gemini-layer": "^0.0.2",
     "@builderbot-plugins/telegram": "^2.0.0",
     "@builderbot/bot": "latest",
     "@builderbot/provider-meta": "latest",

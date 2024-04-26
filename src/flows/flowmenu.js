@@ -1,13 +1,14 @@
 import { addKeyword } from '@builderbot/bot';
-
+import { geminiLayer } from "@builderbot-plugins/gemini-layer";
 const flowmenu = addKeyword("PRODUCTOS")
-  .addAnswer([
-    "¿Como podemos ayudarte?",
-    "",
-    "*1-*🛍Realizar *Pedido*",
-    "*2-*👨‍💻Contactar con *Agente* ",
-    
-  ])
-  .addAnswer("Responda con el numero de la opcion!");
+
+.addAction(async (...bot) => await geminiLayer({
+  vision: true,
+  context: {
+      horarios_de_atencion: 'Lunes a Viernes de 9:00 a 18:00',
+      ubicacion: 'venezuela',
+      'reclamos y quejas': 'dejar un correo en la seccion de reclamos y quejas',
+  }
+}, bot))
 
   export default flowmenu
