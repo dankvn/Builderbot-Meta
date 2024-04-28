@@ -6,9 +6,12 @@ import GoogleSheetService from "../services/sheets/index.js";
 const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);
 
 
+
 const welcomeFlow = addKeyword(EVENTS.WELCOME)
+.addAnswer(`Send image from URL`, 
+{ media: 'https://i.imgur.com/0HpzsEm.png' }
+)
 .addAnswer('🤖', null, async (ctx, { state, gotoFlow,  }) => {
-  
   const telefono = ctx.from;
   
   console.log("Número de teléfono:", telefono);
