@@ -44,7 +44,7 @@ class GoogleSheetService {
         .map((row) => ({
           Nombre: row.get("Nombre"),
           Número_de_teléfono: row.get("Número_de_teléfono"),
-          Correo: row.get("Correo"),
+          Email: row.get("Email"),
           Fecha_de_registro: row.get("Fecha_de_registro"),
           
         }));

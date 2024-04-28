@@ -4,10 +4,7 @@ import flowmenu from './flowmenu.js';
 import flowUserNotRegistered from './flowUserNotRegistered.js';
 
 
-const googlesheet = new GoogleSheetService(
-  "1sjSk6t983zc9ZeojTdiLn67tN4W854Ekcjq75Dwfga8"
-);
-
+const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);
 
 const flowRegistered = addKeyword(EVENTS.ACTION)
 .addAction(async (ctx, { state,flowDynamic, gotoFlow}) => {

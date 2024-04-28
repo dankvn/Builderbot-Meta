@@ -28,6 +28,7 @@ const main = async () => {
  
 
   const adapterDB = new Database()
+  
 
   const { handleCtx, httpServer } = await createBot({
       flow: adapterFlow,

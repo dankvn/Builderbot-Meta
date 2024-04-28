@@ -15,7 +15,7 @@ const googlesheet = new GoogleSheetService(
 .addAnswer('¿Cuál es tu email?', { capture: true }, async (ctx, { state ,fallBack,  }) => {
     await state.update({ email: ctx.body });  
     if (!ctx.body.includes('@')) {
-      return fallBack(`Ups! email no valido ❌...Ingresa un email que contenga @`);
+      return fallBack(`Ups! email no valido ❌...\nIngresa un email que contenga @...✏`);
      
     } else {
       // 
