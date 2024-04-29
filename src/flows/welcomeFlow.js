@@ -6,7 +6,7 @@ import GoogleSheetService from "../services/sheets/index.js";
 const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);
 
 const welcomeFlow = addKeyword(EVENTS.WELCOME)
-  .addAnswer(`Bienvenidos a ${process.env.NAME_EMP}. Soy tu asistente virtual.`, {
+  .addAnswer(`Bienvenidos a ${process.env.NAME_EMP}.🤖`, {
     media: "https://imgur.com/6gFJoMB",
   })
   .addAnswer( null, async (ctx, { state, gotoFlow }) => {

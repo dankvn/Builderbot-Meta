@@ -11,7 +11,7 @@ const flowRegistered = addKeyword(EVENTS.ACTION)
   const telefono = ctx.from;
   const userData  = await googlesheet.validatePhoneNumber(telefono);
 
-  const mensaje = `👋Hola ${userData ?.Nombre}, soy tu asistente virtual `;
+  const mensaje = `👋Hola ${userData?.Nombre}, soy tu asistente virtual `;
   await flowDynamic(mensaje);
   
     if (userData !== null) { // Si se encontraron datos
