@@ -6,10 +6,10 @@ import GoogleSheetService from "../services/sheets/index.js";
 const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);
 
 const welcomeFlow = addKeyword(EVENTS.WELCOME)
-  .addAnswer(`Send image from URL`, {
-    media: "https://i.imgur.com/0HpzsEm.png",
+  .addAnswer(`Bienvenidos a ${process.env.NAME_EMP}. Soy tu asistente virtual.`, {
+    media: "https://imgur.com/6gFJoMB",
   })
-  .addAnswer("🤖", null, async (ctx, { state, gotoFlow, flowDynamic }) => {
+  .addAnswer( null, async (ctx, { state, gotoFlow }) => {
     const telefono = ctx.from;
     
     console.log("Número de teléfono:", telefono);
@@ -19,9 +19,7 @@ const welcomeFlow = addKeyword(EVENTS.WELCOME)
       `${new Date()} Resultado de la consulta en la hoja de cálculo:`,
       userData
     );
-    await flowDynamic([
-      { body: "This is an image 111", media: "https://i.imgur.com/0HpzsEm.png" },
-    ]);
+   
     if (userData !== null) {
       // Si se encontraron datos
       await state.update({ registration: true, userData }); // Actualizar el estado con los datos del usuario
@@ -33,8 +31,6 @@ const welcomeFlow = addKeyword(EVENTS.WELCOME)
   }
  
 )
-  .addAnswer(`img`, {
-    media: "https://i.imgur.com/0HpzsEm.png",
-  });
+  
 
 export default welcomeFlow;
