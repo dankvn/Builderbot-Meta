@@ -12,13 +12,13 @@ import UserYesRegister from "./flows/UserYesRegisterFlow.js";
 import UserNotRegisteredFlow from "./flows/UserNotRegisteredFlow.js";
 import create_imgFlow from "./flows/create_imgFlow.js";
 import menuFlow from "./flows/menuFlow.js"
-
+import traductorFlow from "./flows/traductorFlow.js"
 
 
 const PORT = process.env.PORT ?? 3008;
 
 const main = async () => {
-    const adapterFlow = createFlow([welcomeFlow,UserYesRegister,UserNotRegisteredFlow, create_imgFlow,menuFlow]);
+    const adapterFlow = createFlow([welcomeFlow,UserYesRegister,UserNotRegisteredFlow, create_imgFlow,menuFlow,traductorFlow]);
     const adapterProvider = createProvider(Provider, {
         jwtToken: process.env.JWT_TOKEN,
         numberId: process.env.NUMBER_ID,
