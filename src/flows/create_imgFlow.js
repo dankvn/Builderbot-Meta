@@ -14,7 +14,7 @@ const create_imgFlow = addKeyword(["3"])
         debug: true,
         provider: g4f.providers.Prodia,
         providerOptions: {
-            model: "lofi_v4.safetensors [ccc204d6]",
+            model: "Realistic_Vision_V1.4-pruned-fp16.safetensors [8d21810b]",
             samplingSteps: 15,
             cfgScale: 30
         }
