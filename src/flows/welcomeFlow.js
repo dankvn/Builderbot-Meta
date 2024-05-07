@@ -1,16 +1,14 @@
 import { addKeyword, EVENTS } from "@builderbot/bot";
-import flowUserNotRegistered from "./flowUserNotRegistered.js";
-import flowRegistered from "./flowRegistered.js";
+import UserNotRegisteredFlow from "./UserNotRegisteredFlow.js";
+import UserYesRegisterFlow from "./UserYesRegisterFlow.js";
 import GoogleSheetService from "../services/sheets/index.js";
 
 const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);
 
 const welcomeFlow = addKeyword(EVENTS.WELCOME)
-.addAnswer(`Send image from URL`, 
-{ media: 'https://i.imgur.com/0HpzsEm.png' }
-)
-.addAnswer('🤖', null, async (ctx, { state, gotoFlow,  }) => {
 
+.addAnswer('holaaa', null, async (ctx, { state, gotoFlow }) => {
+ 
     const telefono = ctx.from;
     
     console.log("Número de teléfono:", telefono);
@@ -24,10 +22,12 @@ const welcomeFlow = addKeyword(EVENTS.WELCOME)
     if (userData !== null) {
       // Si se encontraron datos
       await state.update({ registration: true, userData }); // Actualizar el estado con los datos del usuario
-      return gotoFlow(flowRegistered); // Redireccionar al flujo flowRegistered
+       return gotoFlow(UserYesRegisterFlow); // Redireccionar al flujo flowRegistered
+       
     } else {
-      return gotoFlow(flowUserNotRegistered); // Redireccionar al flujo flowUserNotRegistered
-    }
+      return gotoFlow(UserNotRegisteredFlow); // Redireccionar al flujo flowUserNotRegistered
+     
+    } 
    
   }
  

@@ -1,7 +1,7 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { CoreClass } = require("@bot-whatsapp/bot");
-const Queue = require("queue-promise");
-require("dotenv").config();
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { CoreClass } from '@builderbot/bot';
+import Queue from "queue-promise";
+import "dotenv/config";
 
 /**
  * Clase que representa al bot Gemini.
@@ -199,4 +199,4 @@ class GeminiBot extends CoreClass {
   }
 }
 
-module.exports = GeminiBot;
+export default GeminiBot;

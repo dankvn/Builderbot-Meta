@@ -6,7 +6,7 @@ const googlesheet = new GoogleSheetService(
   "1sjSk6t983zc9ZeojTdiLn67tN4W854Ekcjq75Dwfga8"
 );
 
-  const flowUserNotRegistered= addKeyword(EVENTS.ACTION)
+  const UserNotRegisteredFlow= addKeyword(EVENTS.ACTION)
   .addAnswer('Para acceder al bot tienes que registarte 📝')
 
   .addAnswer('¿Cuál es tu nombre?', { capture: true }, async (ctx, { state }) => {
@@ -34,4 +34,4 @@ const googlesheet = new GoogleSheetService(
 });
   
 
-  export default flowUserNotRegistered
+  export default UserNotRegisteredFlow

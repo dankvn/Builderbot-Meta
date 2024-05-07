@@ -6,18 +6,19 @@ import { MetaProvider as Provider } from '@builderbot/provider-meta'
 
 
 
-
 //flows
 import welcomeFlow from "./flows/welcomeFlow.js";
-import flowRegistered from "./flows/flowRegistered.js";
-import flowUserNotRegistered from "./flows/flowUserNotRegistered.js";
+import UserYesRegister from "./flows/UserYesRegisterFlow.js"; 
+import UserNotRegisteredFlow from "./flows/UserNotRegisteredFlow.js";
+import create_imgFlow from "./flows/create_imgFlow.js";
+import menuFlow from "./flows/menuFlow.js"
 
 
 
 const PORT = process.env.PORT ?? 3008;
 
 const main = async () => {
-    const adapterFlow = createFlow([welcomeFlow,flowRegistered,flowUserNotRegistered])
+    const adapterFlow = createFlow([welcomeFlow,UserYesRegister,UserNotRegisteredFlow, create_imgFlow,menuFlow]);
     const adapterProvider = createProvider(Provider, {
         jwtToken: process.env.JWT_TOKEN,
         numberId: process.env.NUMBER_ID,
@@ -31,7 +32,7 @@ const main = async () => {
   
 
   const { handleCtx, httpServer } = await createBot({
-      flow: adapterFlow,
+      flow:adapterFlow,
       provider: adapterProvider,
       database: adapterDB,
   })
