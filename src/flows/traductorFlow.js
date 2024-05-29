@@ -1,6 +1,7 @@
 import { G4F } from "g4f";
 
 import { addKeyword } from "@builderbot/bot";
+import menuFlow from "./menuFlow";
 const g4f = new G4F();
 
 const option1 = `English 🇰🇾`;
@@ -94,10 +95,15 @@ const traductorFlow = addKeyword(["3"])
   .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
     if (ctx.body === backOption) {
       await state.update({ attempts: 1 }); // Reset attempts
+      return gotoFlow(menuFlow)
+    } 
+  })
+  .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
+    if (ctx.body === translateAgainOption) {
+      await state.update({ attempts: 1 }); // Reset attempts
       return gotoFlow(traductorFlow)
     } 
   });
-
 
 
 export default traductorFlow;
