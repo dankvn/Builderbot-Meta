@@ -1,10 +1,9 @@
 import { addKeyword, EVENTS } from '@builderbot/bot';
 
-import GoogleSheetService from "../services/sheets/index.js";
+import GoogleSheetService from "../services/Sheets/index.js";
+import menuFlow from './menuFlow.js';
 
-const googlesheet = new GoogleSheetService(
-  "1sjSk6t983zc9ZeojTdiLn67tN4W854Ekcjq75Dwfga8"
-);
+const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);
 
   const UserNotRegisteredFlow= addKeyword(EVENTS.ACTION)
   .addAnswer('Para acceder al bot tienes que registarte 📝')
@@ -22,16 +21,22 @@ const googlesheet = new GoogleSheetService(
     }
   })
 
-.addAnswer('Tus datos son:', null, async (ctx, { flowDynamic, state }) => {
+.addAnswer('Tus datos son:', null, async (ctx, { gotoFlow,flowDynamic, state }) => {
     const nombre = state.get('name');
     const email = state.get('email');
     const telefono = ctx.from;
     // Guardar los datos en Google Sheets
     await googlesheet.guardarDatosUsuario(nombre,email,telefono);
+    await flowDynamic(`Nombre: ${nombre}\nEmail: ${email}`);
 
-   await flowDynamic(`Nombre: ${nombre}\nEmail: ${email}`);
-
-});
-  
+    if (googlesheet !== null) { // Si se encontraron datos
+      await state.update({ registration: true, googlesheet }); // Actualizar el estado con los datos del usuario
+      await flowDynamic([
+        { media:'https://i.imgur.com/10tt1be.jpeg'}
+    ]);
+      await flowDynamic(`Bienvenido *${nombre}* 👋`);
+      return gotoFlow(menuFlow); // Redireccionar al flujo flowRegistered
+    }
+})
 
   export default UserNotRegisteredFlow

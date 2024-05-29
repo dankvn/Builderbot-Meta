@@ -1,5 +1,5 @@
 import { addKeyword} from '@builderbot/bot';
-import GoogleSheetService from "../services/sheets/index.js";
+import GoogleSheetService from "../services/Sheets/index.js";
 import menuFlow from "./menuFlow.js";
 
 import UserNotRegisteredFlow from './UserNotRegisteredFlow.js';
@@ -13,7 +13,7 @@ const UserYesRegister = addKeyword('red')
   const telefono = ctx.from;
   const userData  = await googlesheet.validatePhoneNumber(telefono);
   
-  const mensaje = `👋${userData?.Nombre}, soy tu asistente virtual `;
+  const mensaje = `${userData?.Nombre}, soy tu asistente virtual 🙌 `;
   await flowDynamic(mensaje);
   
     if (userData !== null) { // Si se encontraron datos
@@ -23,7 +23,8 @@ const UserYesRegister = addKeyword('red')
       return gotoFlow(UserNotRegisteredFlow); // Redireccionar al flujo flowUserNotRegistered
     }
     
-});
+})
+
 
 
 export default UserYesRegister

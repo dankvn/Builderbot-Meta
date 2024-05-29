@@ -1,3 +1,4 @@
+
 import "dotenv/config";
 import { createBot, createProvider, createFlow } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
@@ -13,12 +14,17 @@ import UserNotRegisteredFlow from "./flows/UserNotRegisteredFlow.js";
 import create_imgFlow from "./flows/create_imgFlow.js";
 import menuFlow from "./flows/menuFlow.js"
 import traductorFlow from "./flows/traductorFlow.js"
+import gptFlow from "./flows/gptFlow.js"
+import pdf from "./flows/pdf.Flow.js"
+import calendarFlow from "./flows/calendarFlow.js";
+import webFlow from "./flows/webFlow.js";
+import  flowSeller  from "./flows/seller.flow.js";
 
 
 const PORT = process.env.PORT ?? 3008;
 
 const main = async () => {
-    const adapterFlow = createFlow([welcomeFlow,UserYesRegister,UserNotRegisteredFlow, create_imgFlow,menuFlow,traductorFlow]);
+    const adapterFlow = createFlow([welcomeFlow,UserYesRegister,UserNotRegisteredFlow,webFlow, create_imgFlow,menuFlow,traductorFlow,gptFlow,pdf,calendarFlow,flowSeller]);
     const adapterProvider = createProvider(Provider, {
         jwtToken: process.env.JWT_TOKEN,
         numberId: process.env.NUMBER_ID,

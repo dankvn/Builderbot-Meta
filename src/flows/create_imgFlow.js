@@ -1,4 +1,3 @@
-
 import { G4F } from "g4f";
 import fs from "fs";
 import { addKeyword } from "@builderbot/bot";
@@ -14,7 +13,7 @@ const create_imgFlow = addKeyword(["3"])
         debug: true,
         provider: g4f.providers.Prodia,
         providerOptions: {
-            model: "Realistic_Vision_V1.4-pruned-fp16.safetensors [8d21810b]",
+            model: "ICantBelieveItsNotPhotography_seco.safetensors [4e7a3dfd]",
             samplingSteps: 15,
             cfgScale: 30
         }

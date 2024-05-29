@@ -11,17 +11,17 @@
   },
   "keywords": [],
   "dependencies": {
-    "@builderbot-plugins/gemini-layer": "^0.0.2",
-    "@builderbot-plugins/telegram": "^2.0.0",
     "@builderbot/bot": "latest",
     "@builderbot/provider-meta": "latest",
     "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "g4f": "^1.4.3",
     "google-auth-library": "^9.8.0",
     "google-spreadsheet": "^4.1.1",
+    "googleapis": "^137.1.0",
     "gpt4free-plugin": "^1.0.4",
-    "sharp": "^0.33.3"
+    "sharp": "^0.33.4"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
