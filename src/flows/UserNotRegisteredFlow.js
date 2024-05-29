@@ -1,6 +1,6 @@
 import { addKeyword, EVENTS } from '@builderbot/bot';
 
-import GoogleSheetService from "../services/Sheets/index.js";
+import GoogleSheetService from "../services/sheets/index.js";
 import menuFlow from './menuFlow.js';
 
 const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);

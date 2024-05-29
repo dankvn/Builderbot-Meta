@@ -1,5 +1,5 @@
 import { addKeyword} from '@builderbot/bot';
-import GoogleSheetService from "../services/Sheets/index.js";
+import GoogleSheetService from "../services/sheets/index.js";
 import menuFlow from "./menuFlow.js";
 
 import UserNotRegisteredFlow from './UserNotRegisteredFlow.js';

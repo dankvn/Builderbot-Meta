@@ -1,7 +1,7 @@
 import { addKeyword, EVENTS } from "@builderbot/bot";
 import UserNotRegisteredFlow from "./UserNotRegisteredFlow.js";
 import UserYesRegisterFlow from "./UserYesRegisterFlow.js";
-import GoogleSheetService from "../services/Sheets/index.js";
+import GoogleSheetService from "../services/sheets/index.js";
 
 const googlesheet = new GoogleSheetService(process.env.SHEET_TOKEN);
 
