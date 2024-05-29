@@ -29,7 +29,7 @@ const main = async () => {
         jwtToken: process.env.JWT_TOKEN,
         numberId: process.env.NUMBER_ID,
         verifyToken: process.env.VERIFY_TOKEN,
-        version: 'v18.0'
+        version: 'v19.0'
     })
 
  
