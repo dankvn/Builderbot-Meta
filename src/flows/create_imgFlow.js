@@ -50,14 +50,12 @@ const create_imgFlow = addKeyword(["3"])
     if (ctx.body === backOption) {
       await state.update({ attempts: 1 }); // Reset attempts
       return gotoFlow(menuFlow)
-    } 
+    } if (ctx.body === translateAgainOption) {
+        await state.update({ attempts: 1 }); // Reset attempts
+        return gotoFlow(create_imgFlow)
+      } 
   })
-  .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
-    if (ctx.body === translateAgainOption) {
-      await state.update({ attempts: 1 }); // Reset attempts
-      return gotoFlow(create_imgFlow)
-    } 
-  });
+  
 
   export default create_imgFlow 
 

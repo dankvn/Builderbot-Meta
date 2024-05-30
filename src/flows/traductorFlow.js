@@ -97,13 +97,12 @@ const traductorFlow = addKeyword(["3"])
       await state.update({ attempts: 1 }); // Reset attempts
       return gotoFlow(menuFlow)
     } 
-  })
-  .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
     if (ctx.body === translateAgainOption) {
       await state.update({ attempts: 1 }); // Reset attempts
       return gotoFlow(traductorFlow)
     } 
-  });
+  })
+  
 
 
 export default traductorFlow;
