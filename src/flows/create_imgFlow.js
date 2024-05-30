@@ -2,6 +2,10 @@ import { G4F } from "g4f";
 import fs from "fs";
 import { addKeyword } from "@builderbot/bot";
 const g4f = new G4F();
+import menuFlow from "./menuFlow.js";
+
+const backOption = `Atras🔙`;
+const translateAgainOption = `Crear🔄`;
 
 const create_imgFlow = addKeyword(["3"])
 .addAnswer("Ingresa un prompt para la creacion de la imaguen")
@@ -37,7 +41,24 @@ const create_imgFlow = addKeyword(["3"])
             });
         }
     });
-});
+})
+
+.addAnswer("¿Quieres realizar otra traducción o regresar al menú anterior?", {
+    buttons: [{ body: translateAgainOption },{ body: backOption }]
+  })
+  .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
+    if (ctx.body === backOption) {
+      await state.update({ attempts: 1 }); // Reset attempts
+      return gotoFlow(menuFlow)
+    } 
+  })
+  .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
+    if (ctx.body === translateAgainOption) {
+      await state.update({ attempts: 1 }); // Reset attempts
+      return gotoFlow(create_imgFlow)
+    } 
+  });
+
   export default create_imgFlow 
 
 

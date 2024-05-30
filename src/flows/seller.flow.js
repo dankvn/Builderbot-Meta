@@ -1,6 +1,7 @@
 import { addKeyword, EVENTS } from "@builderbot/bot";
 import { G4F } from "g4f";
 import { generateTimer } from "../utils/generateTimer.js";
+import menuFlow from "./menuFlow.js";
 
 const g4f = new G4F();
 const PROMPT_SELLER = `Eres el asistente virtual en la prestigiosa barbería "Barbería Flow 25", ubicada en Madrid, Plaza de Castilla 4A. Tu principal responsabilidad es responder a las consultas de los clientes y ayudarles a programar sus citas.
@@ -89,6 +90,22 @@ const flowSeller = addKeyword(EVENTS.ACTION)
   .addAction(
     async (ctx, { state, flowDynamic }) => {
       await handleUserMessage(ctx, state, flowDynamic);
+    }
+  )
+  .addAction(
+    { capture: true },
+    async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
+      const userResponse = ctx.body;
+
+      if (userResponse === "Si" || userResponse === "si") {
+        return gotoFlow(flowSeller);
+      } else if (userResponse === "No" || userResponse === "no") {
+        await flowDynamic("Has regresado al menú anterior.");
+        return gotoFlow(menuFlow);
+      }
+      if (!userResponse.includes("si", "no")) {
+        return fallBack(`Error...❌Escribe si o no `);
+      }
     }
   );
 

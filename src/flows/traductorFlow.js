@@ -1,14 +1,14 @@
 import { G4F } from "g4f";
 
 import { addKeyword } from "@builderbot/bot";
-import menuFlow from "./menuFlow";
+import menuFlow from "./menuFlow.js";
 const g4f = new G4F();
 
 const option1 = `English 🇰🇾`;
 const option2 = `Korea 🇰🇷`;
 const option3 = `Japones 🇯🇵`;
-const backOption = `Regresar 🔙`;
-const translateAgainOption = `🔄 Traducir otra frase`;
+const backOption = `Atras🔙`;
+const translateAgainOption = `Traduccion🔄`;
 
 const buttonsList = [{ body: option1 }, { body: option2 }, { body: option3 }];
 
