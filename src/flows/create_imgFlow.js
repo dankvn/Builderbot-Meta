@@ -40,21 +40,22 @@ const create_imgFlow = addKeyword(["3"])
                 }
             });
         }
-    });
-})
+    })
+    .addAnswer("¿Quieres crear otra imagen o regresar al menú anterior?", {
+        buttons: [{ body: translateAgainOption },{ body: backOption }]
+      },{ delay: 5000 })
+      .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
+        if (ctx.body === backOption) {
+          await state.update({ attempts: 1 }); // Reset attempts
+          return gotoFlow(menuFlow)
+        } if (ctx.body === translateAgainOption) {
+            await state.update({ attempts: 1 }); // Reset attempts
+            return gotoFlow(create_imgFlow)
+          } 
+      })
+});
 
-.addAnswer("¿Quieres crear otra imagen o regresar al menú anterior?", {
-    buttons: [{ body: translateAgainOption },{ body: backOption }]
-  },{ delay: 5000 })
-  .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
-    if (ctx.body === backOption) {
-      await state.update({ attempts: 1 }); // Reset attempts
-      return gotoFlow(menuFlow)
-    } if (ctx.body === translateAgainOption) {
-        await state.update({ attempts: 1 }); // Reset attempts
-        return gotoFlow(create_imgFlow)
-      } 
-  })
+
   
 
   export default create_imgFlow 
