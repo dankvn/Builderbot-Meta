@@ -4,14 +4,14 @@ import { addKeyword } from "@builderbot/bot";
 const g4f = new G4F();
 import menuFlow from "./menuFlow.js";
 
-const backOption = `Atras🔙`;
+const backOption = `Atras`;
 const translateAgainOption = `Crear🔄`;
 
 const create_imgFlow = addKeyword(["3"])
 .addAnswer("Ingresa un prompt para la creacion de la imaguen")
 .addAction({ capture: true }, async (ctx, { state, flowDynamic }) => {
     await state.update({ name: ctx.body });
-    console.log;({ name: ctx.body });
+    console.log({ name: ctx.body });
     const text = ctx.body;
     const base64Image = await g4f.imageGeneration(`${text}`, { 
         debug: true,
@@ -27,7 +27,7 @@ const create_imgFlow = addKeyword(["3"])
         if (err) {
             console.error('Error writing the file: ', err);
         } else {
-            console.log('The image has been successfully saved as image.jpg.');
+            console.log('The image has been successfully saved as image1.jpg.');
             // Leer el archivo y enviarlo como respuesta
             fs.readFile('image1.jpg', async function(err, data) {
                 if (err) {
@@ -36,29 +36,25 @@ const create_imgFlow = addKeyword(["3"])
                     // Enviar la imagen como respuesta
                     await flowDynamic([
                         {body:'Aquí está tu imagen:', media: 'image1.jpg', data}
-                    ])
+                    ]);
                 }
             });
         }
-    })
-    .addAnswer("¿Quieres crear otra imagen o regresar al menú anterior?", {
-        buttons: [{ body: translateAgainOption },{ body: backOption }]
-      },{ delay: 5000 })
-      .addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
-        if (ctx.body === backOption) {
-          await state.update({ attempts: 1 }); // Reset attempts
-          return gotoFlow(menuFlow)
-        } if (ctx.body === translateAgainOption) {
-            await state.update({ attempts: 1 }); // Reset attempts
-            return gotoFlow(create_imgFlow)
-          } 
-      })
+    });
+})
+.addAnswer("¿Quieres crear otra imagen o regresar al menú anterior?", {
+    buttons: [{ body: translateAgainOption },{ body: backOption }]
+  }) 
+.addAction({ capture: true }, async (ctx, { state, gotoFlow }) => {
+    
+
+    if (ctx.body === backOption) {
+      await state.update({ attempts: 1 }); // Reset attempts
+      return gotoFlow(menuFlow)
+    } if (ctx.body === translateAgainOption) {
+        await state.update({ attempts: 1 }); // Reset attempts
+        return gotoFlow(create_imgFlow)
+      } 
 });
 
-
-  
-
-  export default create_imgFlow 
-
-
-
+export default create_imgFlow;
